@@ -1,0 +1,329 @@
+# config/hft.toml — HftConfig del motor intradía (src/hft/config.py).
+#
+# Carga estricta: TODAS las claves son obligatorias y una clave desconocida
+# es error. El hash sha256 de la forma canónica es HftConfig.config_hash().
+# Los costos (HFT-07) están en [costs] y [sim]. El riesgo y el sizing
+# (HFT-08) están en [risk] y [sizing]. El ORB (HFT-09A) está en [orb]:
+# los números son los de Zarattini, Barbon & Aziz (2024) y no se optimizan.
+# El momentum intradía (HFT-09B) está en [intraday_momentum]: Gao, Han,
+# Li & Zhou (2018) y Baltussen et al. (2021). Tampoco se optimiza.
+# La reversión a VWAP (HFT-09C) está en [vwap_reversion]: Grossman &
+# Miller (1988) y Nagel (2012). Los umbrales son los del prompt.
+# Los pares OU (HFT-09D) están en [pairs_ou]. Los pares se escriben
+# por el vínculo económico. No hay una búsqueda sobre el universo.
+# Avellaneda–Stoikov (HFT-09E) está en [avellaneda_stoikov]. Es
+# research_only: el motor lo rechaza en paper. k no está en el archivo;
+# se estima con las barras. γ es el de la simulación del paper.
+# El momentum horario está en [hourly_momentum]. Es exploratorio y no
+# trae símbolos: opera solo universe.
+#
+# latency_bars = 1 fija la regla de causalidad: una intención decidida en
+# la barra t se ejecuta como pronto en t+1. grace_s es la gracia de
+# src.hft.calendar (la barra que empieza en T es final en T + timeframe + gracia).
+schema_version = 1
+
+# Barras de 1 minuto. El backtest y el vivo usan el mismo feed (plan Basic).
+timeframe = "1Min"
+grace_s = 5.0
+latency_bars = 1
+
+# Caja inicial del libro en simulación. En paper el broker manda; este
+# número dimensiona el backtest y la simulación, no la cuenta.
+initial_cash = 100000.0
+
+feed = "iex"
+
+# Primera sesión (fecha de Nueva York) que el backtest no puede usar.
+# El CLI rechaza cualquier rango que llegue a esta fecha o la pase,
+# salvo --unlock-holdout, y ese desbloqueo queda en results/hft/trials.csv.
+# Corte ex-ante de HFT-10: 2025 es muestra de trabajo; 2026 se mira una vez.
+holdout_start = "2026-01-01"
+
+# Los 10 ETF de universe_hft.csv (D-03). Ampliar ese CSV y esta lista juntos.
+universe = [
+  "SPY",
+  "QQQ",
+  "IWM",
+  "DIA",
+  "XLF",
+  "XLE",
+  "XLK",
+  "XLV",
+  "GLD",
+  "TLT",
+]
+
+[costs]
+# Medio spread sin quote: max(tick, piso en bps, Roll/2, Corwin–Schultz/2).
+spread_floor_bps = 1.0
+tick = 0.01
+# impacto = Y * σ_diaria * sqrt(q / ADV). Y = 1 es Tóth et al. (2011).
+impact_y = 1.0
+adv_window = 20
+# Alpaca documenta las acciones como commission-free.
+commission_per_share = 0.0
+# SEC Release 34-104909: 20.60 USD por millón desde 2026-04-04.
+sec_section31_rate = 0.0000206
+sec_section31_verified_on = "2026-04-04"
+# FINRA Schedule A 2026: 0.000195 USD/acción, tope 9.79.
+# Entre 2026-10-01 y 2026-12-31 el TAF cobrado es 0 (SR-FINRA-2026-021).
+# El modelo conserva la tasa del schedule: un backtest no hereda una
+# exención de tres meses. En esa ventana el paper cobra menos.
+finra_taf_per_share = 0.000195
+finra_taf_cap = 9.79
+finra_taf_verified_on = "2026-10-04"
+# Alpaca cripto tier 1: 0.15% maker, 0.25% taker.
+crypto_maker_bps = 15.0
+crypto_taker_bps = 25.0
+crypto_fees_verified_on = "2026-10-04"
+
+[sim]
+participation_cap = 0.10
+partial_prob = 0.10
+# cross cruza el límite por un tick. touch es la sensibilidad optimista.
+fill_mode = "cross"
+# Barras EXTRA del simulador. El motor ya espera latency_bars (mínimo t+1).
+# Subirlo mueve el fill de mercado a la apertura de t+1+latency_bars.
+latency_bars = 0
+
+[risk]
+# Tope de nocional por símbolo, en USD, después de la orden.
+max_position_notional = 10000.0
+# Múltiplos del equity de la cuenta (1.0 = 100% del equity).
+max_gross_exposure = 1.0
+max_net_exposure = 1.0
+max_open_orders = 20
+max_orders_per_minute = 8
+max_orders_per_day = 100
+# Pérdida del día = −(realizado + no realizado − base de la sesión).
+# Se dispara el primero de los dos topes. La fracción es del equity
+# de la cuenta: 0.02 = 2%. Al dispararse se rechazan entradas, se
+# emite FLATTEN_ALL y, en vivo, se escribe KILL.
+max_daily_loss_usd = 500.0
+max_daily_loss_pct = 0.02
+max_consecutive_losses = 3
+cooldown_minutes = 15
+# Minutos antes del cierre real (HFT-03). En media sesión el cierre
+# es 13:00 ET, así que el corte y el flatten se mueven con él.
+entry_cutoff_minutes = 15.0
+flatten_minutes = 5.0
+# Edad de la última barra final (su cierre, no su inicio).
+stale_data_s = 90.0
+spread_guard_bps = 10.0
+
+[sizing]
+# D-04: se dimensiona sobre el capital que se usaría, no sobre los 100k
+# de paper. equity_riesgo = min(equity de la cuenta, este número).
+risk_capital_usd = 25000.0
+# Riesgo fijo: qty = risk_frac * equity_riesgo / |entrada − stop|.
+risk_frac = 0.01
+# Vol targeting: nocional = sigma_target * equity_riesgo / sigma_activo.
+# Misma unidad que la σ que entregue la estrategia (no se anualiza).
+sigma_target = 0.01
+# Kelly fraccional f = c * mu / sigma². c no puede pasar de 0.25, y
+# mu y sigma tienen que venir estimados fuera de muestra.
+kelly_c = 0.25
+min_notional = 100.0
+max_leverage = 1.0
+
+[orb]
+# Primeros 5 minutos (secciones 2 y 4). La decisión es al cierre de la
+# barra de 09:34; el motor la ejecuta en la siguiente.
+opening_minutes = 5
+# Media del mismo tramo en las 14 sesiones previas (sección 3).
+rvol_sessions = 14
+# Sección 4: no operar por debajo del 100% de ese promedio.
+min_rvol = 1.0
+# Sección 4: los 20 de mayor RVOL. Con menos nombres en el universo
+# se opera los que pasen el umbral.
+top_k = 20
+# Sección 2.1, requisito 1. El filtro de pre-mercado usa el cierre
+# previo; a las 09:34 también se exige el open de la sesión.
+min_price = 5.0
+# Sección 2.1, requisito 2: promedio de 14 días, en acciones.
+min_adv_shares = 1000000
+adv_sessions = 14
+# Sección 2.1, requisito 3: ATR de 14 días estrictamente mayor.
+min_atr = 0.50
+atr_sessions = 14
+# Sección 2.1 y figura 2: stop a 10% del ATR diario, sin take-profit.
+stop_atr_frac = 0.10
+# Sección 2.1, position sizing. Tiene que igualar sizing.risk_frac.
+risk_frac = 0.01
+# Sección 2.1: doji (open = close) no opera. 0 exige igualdad exacta.
+doji_eps = 0.0
+# Percentil de Amihud de src.universe_filter (R-03), sobre días previos.
+# El paper no usa Amihud: su filtro de liquidez es el ADV de arriba.
+amihud_percentile = 90.0
+# El paper entra con un stop en el high/low del rango (sec. 2.1).
+# Aquí el límite cruza un tick el cierre de la decisión para que el
+# marketable_limit alcance el medio spread mínimo del modelo (un tick).
+limit_through_ticks = 1
+
+[intraday_momentum]
+# Gao, Han, Li & Zhou (2018): la muestra principal es SPY.
+symbol = "SPY"
+# Precio de 30 minutos después de la apertura (10:00 ET si abre 09:30),
+# contra el cierre consolidado previo. La media sesión no mueve esta hora.
+first_half_minutes = 30
+# Decisión 30 minutos antes del cierre real (15:30 ET en una sesión
+# regular; 12:30 si el cierre es 13:00). r12 es la media hora previa.
+last_half_minutes = 30
+# Apagado: se opera el signo de r1. Encendido: signo(r1) = signo(r12).
+# No se estima el coeficiente de la regresión del paper.
+require_r12_agreement = false
+# Apagado. El paper ve más efecto en días volátiles; el umbral de abajo
+# solo corre si esto está en true.
+use_vol_filter = false
+# |r1| > 1 σ diaria. El paper parte por la mediana de la vol de la
+# primera media hora, no por este múltiplo. Es ex-ante y no se busca.
+min_abs_r1_sigma = 1.0
+# Ventana de la σ diaria del vol targeting. La misma de costs.adv_window.
+sigma_sessions = 20
+# flatten: market en flatten_time. cls: market tif=cls al llenar la entrada.
+exit_mode = "flatten"
+# Alpaca rechaza CLS después de las 15:50 ET (Orders at Alpaca, 2026-10-05).
+# 10 minutos antes del cierre real. En media sesión el margen se corre
+# con el cierre: la página fija las 15:50, no el cierre temprano.
+cls_cutoff_minutes = 10
+
+[vwap_reversion]
+# Desviación típica de (cierre − VWAP) en 30 barras. Historia corta = NaN.
+z_n = 30
+# Entrar a dos desviaciones, salir si el desvío ya volvió, stop si se amplía.
+entry_z = 2.0
+exit_z = 0.5
+stop_z = 3.5
+# No operar la apertura. El corte coincide con risk.entry_cutoff_minutes.
+skip_open_minutes = 15
+entry_cutoff_minutes = 15.0
+# Techo del holding del cuadro de 09C.
+time_stop_minutes = 60
+# Percentil de vol realizada contra las 20 sesiones previas.
+vol_sessions = 20
+# Por debajo del corte high_vol de regime_detector (70). No se importa.
+max_vol_percentile = 70.0
+# Pendiente normalizada: MA 50, recta de 21, umbral 0.5. Misma definición
+# que regime_detector, reimplementada en features.trend_score.
+trend_ma = 50
+trend_look = 21
+trend_threshold = 0.5
+# Los de menor spread estimado, hasta el tamaño del universo HFT (D-03).
+top_k = 10
+# Riesgo fijo hasta el precio del stop en z. Igual a sizing.risk_frac.
+risk_frac = 0.01
+# Un tick para que el marketable_limit alcance el medio spread mínimo.
+limit_through_ticks = 1
+# passive_limit es un experimento (research_only). El paper no simula cola.
+entry_style = "marketable_limit"
+
+[pairs_ou]
+# Sesiones previas para el OLS, el ADF y el AR(1). El día en curso no entra.
+# Cinco sesiones son una semana: el hedge se mantiene reciente. No se buscó.
+formation_sessions = 5
+# p = 0: la regresión (3) de MacKinnon (2010). El modelo de trading es AR(1).
+adf_lags = 0
+# Entrar a dos desviaciones de equilibrio, salir si el residuo volvió, stop si se amplía.
+entry_z = 2.0
+exit_z = 0.5
+stop_z = 4.0
+# Banda de vida media compatible con intradía (cuadro de 09D: 15 min a horas).
+# Por encima de 120 min, 3 vidas medias ya no caben en la sesión.
+half_life_min = 15.0
+half_life_max = 120.0
+# Stop de tiempo: 3 × vida media, o el flatten si llega antes.
+half_life_stop_mult = 3.0
+# Una barra de 1 min: es el primer instante en que el libro muestra si
+# las dos marketable_limit, ejecutadas en t+1, se llenaron.
+leg_timeout_s = 60.0
+# Riesgo fijo hasta el stop en z. Igual a sizing.risk_frac.
+risk_frac = 0.01
+# Un tick para que el marketable_limit alcance el medio spread mínimo.
+limit_through_ticks = 1
+# Coincide con risk.entry_cutoff_minutes.
+entry_cutoff_minutes = 15.0
+
+# SHOWCASE: one illustrative textbook pair (the loader requires at least one).
+# The private pair list is not published; pairs_ou is a stub here.
+[[pairs_ou.pairs]]
+leg_a = "KO"
+leg_b = "PEP"
+link = "illustrative textbook example: same sector, shared consumer demand drivers"
+
+[avellaneda_stoikov]
+# Un solo activo, como el paper. SPY es el más líquido del universo (D-03).
+symbol = "SPY"
+# Simulación numérica de Avellaneda & Stoikov (2008): γ = 0.1.
+# No se reestimó. k no se copia de esa simulación (allí k = 1.5): se estima.
+gamma = 0.1
+# Tope de inventario en unidades de quote_qty. Por encima solo el lado que reduce.
+# El paper trata q como estado; el tope es el del prompt, fijado de antemano.
+q_max = 5
+# Una acción: q del paper es el inventario en acciones. No es sizing de capital.
+quote_qty = 1
+# σ del browniano aritmético: std (ddof=1) de 30 cambios de un minuto.
+sigma_bars = 30
+# Ventana de la regresión ln λ = ln A − k δ. Una hora de barras de 1 min.
+k_bars = 60
+# Por debajo no hay k y no se cotiza.
+min_trades = 30
+min_bars = 10
+# Igual que risk.entry_cutoff_minutes. Después, solo el lado que reduce inventario.
+entry_cutoff_minutes = 15.0
+
+[hourly_momentum]
+# Exploratorio: Gao, Han, Li & Zhou (2018) miden el momentum a 30 min; a
+# 60 min es hipótesis. Hasta pasar [decision] es paper-only. Sin clave de
+# símbolos: opera solo universe. Los números se fijaron antes de ver datos.
+# Ventanas en horas de Nueva York, cada hora en punto de 10:00 a 14:00
+# (5 ventanas). Decide con la barra que cierra a esa hora; ejecuta en t+1.
+# La última queda antes de risk.entry_cutoff_minutes en sesión regular;
+# en media sesión manda el cierre real del calendario.
+first_window_et = "10:00"
+last_window_et = "14:00"
+step_minutes = 60
+# Retorno de los 60 minutos previos a la ventana.
+lookback_minutes = 60
+# σ de barras de 1 min en las 20 sesiones previas. La misma de costs.adv_window.
+sigma_sessions = 20
+# Entra si |z| >= 1, en la dirección del retorno.
+min_abs_z = 1.0
+# Hasta 3 posiciones abiertas y 2 entradas nuevas por ventana.
+top_k = 3
+max_new_per_window = 2
+# Time-stop de una hora: se re-evalúa en la ventana siguiente.
+hold_minutes = 60
+# Stop a 25% del ATR diario de 14 sesiones (la ventana de orb.atr_sessions).
+stop_atr_frac = 0.25
+atr_sessions = 14
+# Riesgo fijo hasta el stop. Igual a sizing.risk_frac.
+risk_frac = 0.01
+# Un tick para que el marketable_limit alcance el medio spread mínimo.
+limit_through_ticks = 1
+
+# Protocolo go/no-go (HFT-14). El módulo imprime el veredicto y escribe
+# el registro. No cambia esta config, no firma y no activa paper.
+[decision]
+# G2. Expectativa neta por operación, en la misma unidad que el P&L
+# que se entregue (el backtest usa USD). Estrictamente mayor que esto.
+min_expectancy = 0.0
+# t = media / (s / √n). Sección 2.1 del plan: t >= 2.
+min_t_stat = 2.0
+min_dsr = 0.95
+# Solo si hubo rejilla. Sin rejilla el PBO no aplica.
+max_pbo = 0.2
+min_oos_trades = 300
+# 09B opera ~1 vez por día. Por debajo de min_oos_trades se acepta el
+# máximo disponible si la evidencia lo escribe.
+low_frequency_strategies = ["intraday_momentum"]
+# G3. Ningún año puede aportar más que esta fracción del P&L total.
+max_year_pnl_share = 0.5
+best_days_dropped = 5
+# G4.
+min_paper_sessions = 20
+min_paper_trades = 100
+# Misma regla que el reporte (HFT-13): media(real − modelado) > mult·se.
+min_slippage_sessions = 20
+slippage_se_mult = 2.0
+# G5. Tienen que estar los tres. Quitar uno es un error de carga.
+required_drills = ["crash_restart", "kill", "half_session"]

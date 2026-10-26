@@ -1,0 +1,11 @@
+ticker,yahoo_ticker,broker_symbol,market,currency,tradable_brokers,asset_type,sector,name
+SPY,SPY,SPY,us,USD,alpaca,etf,Index,SPDR S&P 500 ETF
+QQQ,QQQ,QQQ,us,USD,alpaca,etf,Technology,Invesco QQQ
+IWM,IWM,IWM,us,USD,alpaca,etf,Index,iShares Russell 2000
+DIA,DIA,DIA,us,USD,alpaca,etf,Index,SPDR Dow Jones Industrial Average
+XLF,XLF,XLF,us,USD,alpaca,etf,Financials,Financial Select Sector SPDR
+XLE,XLE,XLE,us,USD,alpaca,etf,Energy,Energy Select Sector SPDR
+XLK,XLK,XLK,us,USD,alpaca,etf,Technology,Technology Select Sector SPDR
+XLV,XLV,XLV,us,USD,alpaca,etf,Health Care,Health Care Select Sector SPDR
+GLD,GLD,GLD,us,USD,alpaca,etf,Commodities,SPDR Gold Shares
+TLT,TLT,TLT,us,USD,alpaca,etf,Fixed Income,iShares 20+ Year Treasury Bond

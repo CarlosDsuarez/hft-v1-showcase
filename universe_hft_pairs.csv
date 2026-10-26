@@ -1,0 +1,3 @@
+ticker,yahoo_ticker,broker_symbol,market,currency,tradable_brokers,asset_type,sector,name
+KO,KO,KO,us,USD,alpaca,stock,Consumer Staples,Coca-Cola Co
+PEP,PEP,PEP,us,USD,alpaca,stock,Consumer Staples,PepsiCo Inc

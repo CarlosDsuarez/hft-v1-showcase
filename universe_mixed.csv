@@ -1,0 +1,121 @@
+ticker,yahoo_ticker,broker_symbol,market,currency,tradable_brokers,asset_type,sector,name,adr_proxy,inclusion_reason
+AAPL,AAPL,AAPL,us,USD,alpaca,stock,Technology,Apple Inc,,S&P 500 mega-cap
+MSFT,MSFT,MSFT,us,USD,alpaca,stock,Technology,Microsoft Corp,,S&P 500 mega-cap
+NVDA,NVDA,NVDA,us,USD,alpaca,stock,Technology,NVIDIA Corp,,S&P 500 mega-cap
+AMZN,AMZN,AMZN,us,USD,alpaca,stock,Consumer Discretionary,Amazon.com Inc,,S&P 500 mega-cap
+META,META,META,us,USD,alpaca,stock,Communication Services,Meta Platforms Inc,,S&P 500 mega-cap
+GOOGL,GOOGL,GOOGL,us,USD,alpaca,stock,Communication Services,Alphabet Inc Class A,,S&P 500 mega-cap
+BRK-B,BRK-B,BRK.B,us,USD,alpaca,stock,Financials,Berkshire Hathaway Inc Class B,,S&P 500 mega-cap
+LLY,LLY,LLY,us,USD,alpaca,stock,Healthcare,Eli Lilly & Co,,S&P 500 mega-cap
+AVGO,AVGO,AVGO,us,USD,alpaca,stock,Technology,Broadcom Inc,,S&P 500 mega-cap
+JPM,JPM,JPM,us,USD,alpaca,stock,Financials,JPMorgan Chase & Co,,S&P 500 mega-cap
+TSLA,TSLA,TSLA,us,USD,alpaca,stock,Consumer Discretionary,Tesla Inc,,S&P 500 mega-cap
+UNH,UNH,UNH,us,USD,alpaca,stock,Healthcare,UnitedHealth Group Inc,,S&P 500 mega-cap
+XOM,XOM,XOM,us,USD,alpaca,stock,Energy,Exxon Mobil Corp,,S&P 500 mega-cap
+V,V,V,us,USD,alpaca,stock,Financials,Visa Inc,,S&P 500 mega-cap
+MA,MA,MA,us,USD,alpaca,stock,Financials,Mastercard Inc,,S&P 500 mega-cap
+JNJ,JNJ,JNJ,us,USD,alpaca,stock,Healthcare,Johnson & Johnson,,S&P 500 mega-cap
+PG,PG,PG,us,USD,alpaca,stock,Consumer Staples,Procter & Gamble Co,,S&P 500 mega-cap
+HD,HD,HD,us,USD,alpaca,stock,Consumer Discretionary,Home Depot Inc,,S&P 500 mega-cap
+COST,COST,COST,us,USD,alpaca,stock,Consumer Staples,Costco Wholesale Corp,,S&P 500 mega-cap
+ABBV,ABBV,ABBV,us,USD,alpaca,stock,Healthcare,AbbVie Inc,,S&P 500 mega-cap
+WMT,WMT,WMT,us,USD,alpaca,stock,Consumer Staples,Walmart Inc,,S&P 500 mega-cap
+MRK,MRK,MRK,us,USD,alpaca,stock,Healthcare,Merck & Co Inc,,S&P 500 mega-cap
+CVX,CVX,CVX,us,USD,alpaca,stock,Energy,Chevron Corp,,S&P 500 mega-cap
+CRM,CRM,CRM,us,USD,alpaca,stock,Technology,Salesforce Inc,,S&P 500 large-cap
+BAC,BAC,BAC,us,USD,alpaca,stock,Financials,Bank of America Corp,,S&P 500 large-cap
+KO,KO,KO,us,USD,alpaca,stock,Consumer Staples,Coca-Cola Co,,S&P 500 large-cap
+PEP,PEP,PEP,us,USD,alpaca,stock,Consumer Staples,PepsiCo Inc,,S&P 500 large-cap
+TMO,TMO,TMO,us,USD,alpaca,stock,Healthcare,Thermo Fisher Scientific Inc,,S&P 500 large-cap
+CSCO,CSCO,CSCO,us,USD,alpaca,stock,Technology,Cisco Systems Inc,,S&P 500 large-cap
+ACN,ACN,ACN,us,USD,alpaca,stock,Technology,Accenture plc,,S&P 500 large-cap
+MCD,MCD,MCD,us,USD,alpaca,stock,Consumer Discretionary,McDonald's Corp,,S&P 500 large-cap
+LIN,LIN,LIN,us,USD,alpaca,stock,Materials,Linde plc,,S&P 500 large-cap
+ABT,ABT,ABT,us,USD,alpaca,stock,Healthcare,Abbott Laboratories,,S&P 500 large-cap
+WFC,WFC,WFC,us,USD,alpaca,stock,Financials,Wells Fargo & Co,,S&P 500 large-cap
+DHR,DHR,DHR,us,USD,alpaca,stock,Healthcare,Danaher Corp,,S&P 500 large-cap
+ADBE,ADBE,ADBE,us,USD,alpaca,stock,Technology,Adobe Inc,,S&P 500 large-cap
+TXN,TXN,TXN,us,USD,alpaca,stock,Technology,Texas Instruments Inc,,S&P 500 large-cap
+PM,PM,PM,us,USD,alpaca,stock,Consumer Staples,Philip Morris International,,S&P 500 large-cap
+ORCL,ORCL,ORCL,us,USD,alpaca,stock,Technology,Oracle Corp,,S&P 500 large-cap
+CAT,CAT,CAT,us,USD,alpaca,stock,Industrials,Caterpillar Inc,,S&P 500 large-cap
+GE,GE,GE,us,USD,alpaca,stock,Industrials,GE Aerospace,,S&P 500 large-cap
+IBM,IBM,IBM,us,USD,alpaca,stock,Technology,International Business Machines,,S&P 500 large-cap
+QCOM,QCOM,QCOM,us,USD,alpaca,stock,Technology,QUALCOMM Inc,,S&P 500 large-cap
+AMGN,AMGN,AMGN,us,USD,alpaca,stock,Healthcare,Amgen Inc,,S&P 500 large-cap
+INTU,INTU,INTU,us,USD,alpaca,stock,Technology,Intuit Inc,,S&P 500 large-cap
+ISRG,ISRG,ISRG,us,USD,alpaca,stock,Healthcare,Intuitive Surgical Inc,,S&P 500 large-cap
+AMD,AMD,AMD,us,USD,alpaca,stock,Technology,Advanced Micro Devices Inc,,S&P 500 large-cap
+PFE,PFE,PFE,us,USD,alpaca,stock,Healthcare,Pfizer Inc,,S&P 500 large-cap
+SPGI,SPGI,SPGI,us,USD,alpaca,stock,Financials,S&P Global Inc,,S&P 500 large-cap
+BX,BX,BX,us,USD,alpaca,stock,Financials,Blackstone Inc,,S&P 500 large-cap
+NOW,NOW,NOW,us,USD,alpaca,stock,Technology,ServiceNow Inc,,S&P 500 large-cap
+GS,GS,GS,us,USD,alpaca,stock,Financials,Goldman Sachs Group Inc,,S&P 500 large-cap
+DIS,DIS,DIS,us,USD,alpaca,stock,Communication Services,Walt Disney Co,,S&P 500 large-cap
+UBER,UBER,UBER,us,USD,alpaca,stock,Industrials,Uber Technologies Inc,,S&P 500 large-cap
+NEE,NEE,NEE,us,USD,alpaca,stock,Utilities,NextEra Energy Inc,,S&P 500 large-cap
+RTX,RTX,RTX,us,USD,alpaca,stock,Industrials,RTX Corp,,S&P 500 large-cap
+T,T,T,us,USD,alpaca,stock,Communication Services,AT&T Inc,,S&P 500 large-cap
+LOW,LOW,LOW,us,USD,alpaca,stock,Consumer Discretionary,Lowe's Companies Inc,,S&P 500 large-cap
+PGR,PGR,PGR,us,USD,alpaca,stock,Financials,Progressive Corp,,S&P 500 large-cap
+UNP,UNP,UNP,us,USD,alpaca,stock,Industrials,Union Pacific Corp,,S&P 500 large-cap
+BLK,BLK,BLK,us,USD,alpaca,stock,Financials,BlackRock Inc,,S&P 500 large-cap
+SYK,SYK,SYK,us,USD,alpaca,stock,Healthcare,Stryker Corp,,S&P 500 large-cap
+HON,HON,HON,us,USD,alpaca,stock,Industrials,Honeywell International Inc,,S&P 500 large-cap
+BKNG,BKNG,BKNG,us,USD,alpaca,stock,Consumer Discretionary,Booking Holdings Inc,,S&P 500 large-cap
+VRTX,VRTX,VRTX,us,USD,alpaca,stock,Healthcare,Vertex Pharmaceuticals Inc,,S&P 500 large-cap
+TJX,TJX,TJX,us,USD,alpaca,stock,Consumer Discretionary,TJX Companies Inc,,S&P 500 large-cap
+AXP,AXP,AXP,us,USD,alpaca,stock,Financials,American Express Co,,S&P 500 large-cap
+MS,MS,MS,us,USD,alpaca,stock,Financials,Morgan Stanley,,S&P 500 large-cap
+C,C,C,us,USD,alpaca,stock,Financials,Citigroup Inc,,S&P 500 large-cap
+AMAT,AMAT,AMAT,us,USD,alpaca,stock,Technology,Applied Materials Inc,,S&P 500 large-cap
+SCHW,SCHW,SCHW,us,USD,alpaca,stock,Financials,Charles Schwab Corp,,S&P 500 large-cap
+ADP,ADP,ADP,us,USD,alpaca,stock,Industrials,Automatic Data Processing Inc,,S&P 500 large-cap
+NKE,NKE,NKE,us,USD,alpaca,stock,Consumer Discretionary,NIKE Inc,,S&P 500 large-cap
+PLD,PLD,PLD,us,USD,alpaca,stock,Real Estate,Prologis Inc,,S&P 500 large-cap
+MDT,MDT,MDT,us,USD,alpaca,stock,Healthcare,Medtronic plc,,S&P 500 large-cap
+ETN,ETN,ETN,us,USD,alpaca,stock,Industrials,Eaton Corp plc,,S&P 500 large-cap
+CB,CB,CB,us,USD,alpaca,stock,Financials,Chubb Ltd,,S&P 500 large-cap
+BA,BA,BA,us,USD,alpaca,stock,Industrials,Boeing Co,,S&P 500 large-cap
+LMT,LMT,LMT,us,USD,alpaca,stock,Industrials,Lockheed Martin Corp,,S&P 500 large-cap
+SBUX,SBUX,SBUX,us,USD,alpaca,stock,Consumer Discretionary,Starbucks Corp,,S&P 500 large-cap
+DE,DE,DE,us,USD,alpaca,stock,Industrials,Deere & Co,,S&P 500 large-cap
+MMC,MMC,MMC,us,USD,alpaca,stock,Financials,Marsh & McLennan Companies,,S&P 500 large-cap
+BMY,BMY,BMY,us,USD,alpaca,stock,Healthcare,Bristol-Myers Squibb Co,,S&P 500 large-cap
+GILD,GILD,GILD,us,USD,alpaca,stock,Healthcare,Gilead Sciences Inc,,S&P 500 large-cap
+AMT,AMT,AMT,us,USD,alpaca,stock,Real Estate,American Tower Corp,,S&P 500 large-cap
+ADI,ADI,ADI,us,USD,alpaca,stock,Technology,Analog Devices Inc,,S&P 500 large-cap
+PANW,PANW,PANW,us,USD,alpaca,stock,Technology,Palo Alto Networks Inc,,S&P 500 large-cap
+COP,COP,COP,us,USD,alpaca,stock,Energy,ConocoPhillips,,S&P 500 large-cap
+CMCSA,CMCSA,CMCSA,us,USD,alpaca,stock,Communication Services,Comcast Corp,,S&P 500 large-cap
+REGN,REGN,REGN,us,USD,alpaca,stock,Healthcare,Regeneron Pharmaceuticals Inc,,S&P 500 large-cap
+SO,SO,SO,us,USD,alpaca,stock,Utilities,Southern Co,,S&P 500 large-cap
+ELV,ELV,ELV,us,USD,alpaca,stock,Healthcare,Elevance Health Inc,,S&P 500 large-cap
+MU,MU,MU,us,USD,alpaca,stock,Technology,Micron Technology Inc,,S&P 500 large-cap
+KLAC,KLAC,KLAC,us,USD,alpaca,stock,Technology,KLA Corp,,S&P 500 large-cap
+EQIX,EQIX,EQIX,us,USD,alpaca,stock,Real Estate,Equinix Inc,,S&P 500 large-cap
+DUK,DUK,DUK,us,USD,alpaca,stock,Utilities,Duke Energy Corp,,S&P 500 large-cap
+SHW,SHW,SHW,us,USD,alpaca,stock,Materials,Sherwin-Williams Co,,S&P 500 large-cap
+MO,MO,MO,us,USD,alpaca,stock,Consumer Staples,Altria Group Inc,,S&P 500 large-cap
+CI,CI,CI,us,USD,alpaca,stock,Healthcare,The Cigna Group,,S&P 500 large-cap
+BSX,BSX,BSX,us,USD,alpaca,stock,Healthcare,Boston Scientific Corp,,S&P 500 large-cap
+EC,EC,EC,co,USD,alpaca,stock,Energy,Ecopetrol S.A. ADR,,ADR operable USD cobertura 7a
+CIB,CIB,CIB,co,USD,alpaca,stock,Financials,Bancolombia S.A. ADR,,ADR operable USD proxy BCOLOMBIA/PFBCOLOM sin serie local
+AVAL,AVAL,AVAL,co,USD,alpaca,stock,Financials,Grupo Aval Acciones y Valores ADR,,ADR operable USD
+TGLS,TGLS,TGLS,co,USD,alpaca,stock,Industrials,Tecnoglass Inc,,ADR operable USD
+ICOLCAP,ICOLCAP.CL,,co,COP,,etf,ETF Colombia,iShares COLCAP ETF,,ETF nucleo liquido BVC ADV>500M COP
+HCOLSEL,HCOLSEL.CL,,co,COP,,etf,ETF Colombia,Horizons Colombia Select Index ETF,,ETF nucleo liquido BVC ADV>500M COP
+ECOPETROL,ECOPETROL.CL,,co,COP,,stock,Energy,Ecopetrol S.A.,EC,BVC top-liquidez ADV>500M COP
+ISA,ISA.CL,,co,COP,,stock,Utilities,Interconexion Electrica S.A. ISA,,BVC top-liquidez ADV>500M COP
+GEB,GEB.CL,,co,COP,,stock,Utilities,Grupo Energia Bogota S.A.,,BVC top-liquidez ADV>500M COP
+CELSIA,CELSIA.CL,,co,COP,,stock,Utilities,Celsia S.A.,,BVC top-liquidez ADV>500M COP
+GRUPOARGOS,GRUPOARGOS.CL,,co,COP,,stock,Materials,Grupo Argos S.A.,,BVC top-liquidez proxy PFARGOS sin serie
+CEMARGOS,CEMARGOS.CL,,co,COP,,stock,Materials,Cementos Argos S.A.,,BVC top-liquidez ADV>500M COP
+GRUPOSURA,GRUPOSURA.CL,,co,COP,,stock,Financials,Grupo Inversiones Suramericana,,BVC top-liquidez proxy PFSURA sin serie
+CORFICOL,CORFICOLCF.CL,,co,COP,,stock,Financials,Corporacion Financiera Colombiana,,BVC top-liquidez ADV>500M COP
+MINEROS,MINEROS.CL,,co,COP,,stock,Materials,Mineros S.A.,,BVC top-liquidez ADV>500M COP
+PFAVAL,PFAVAL.CL,,co,COP,,stock,Financials,Grupo Aval Preferencial,AVAL,BVC top-liquidez ADV>500M COP
+PFDAVVNDA,PFDAVVNDA.CL,,co,COP,,stock,Financials,Banco Davivienda Preferencial,,BVC top-liquidez ADV 505M COP marginal
+EXITO,EXITO.CL,,co,COP,,stock,Consumer Staples,Almacenes Exito S.A.,,BVC top-liquidez ADV>500M COP
+TERPEL,TERPEL.CL,,co,COP,,stock,Energy,Organizacion Terpel S.A.,,BVC top-liquidez ADV>500M COP
+PROMIGAS,PROMIGAS.CL,,co,COP,,stock,Utilities,Promigas S.A.,,BVC top-liquidez ADV 532M COP marginal

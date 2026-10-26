@@ -1,0 +1,85 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7  # v10.2.0
+        with:
+          cache-dependency-glob: requirements.txt
+      - name: Install deps (hash-locked)
+        run: |
+          uv venv --clear --python ${{ matrix.python-version }} .venv
+          uv pip install --python .venv/bin/python --require-hashes -r requirements.txt
+          echo "$PWD/.venv/bin" >> "$GITHUB_PATH"
+      - name: Lint (ruff)
+        run: ruff check src experiments tests scripts
+      - name: Syntax check
+        run: python -m compileall src experiments tests
+      - name: Unit suite (offline / synthetic)
+        run: python -m pytest tests/ -q -m "not integration"
+      - name: Live-runner integration (fakes, no network)
+        run: python -m pytest tests/integration -q -m integration -rxX
+      - name: Intraday integration (fakes, no network)
+        run: python -m pytest tests/hft -q -m integration
+
+  core:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7  # v10.2.0
+        with:
+          cache-dependency-glob: requirements-core.txt
+      - name: Install core lock only
+        run: |
+          uv venv --clear --python ${{ matrix.python-version }} .venv-core
+          uv pip install --python .venv-core/bin/python --require-hashes -r requirements-core.txt
+      - name: test-core
+        run: make test-core
+      - name: Core imports without the research stack
+        run: .venv-core/bin/python -m pytest tests/hft/test_core_imports.py -q
+
+  integration:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7  # v10.2.0
+        with:
+          cache-dependency-glob: requirements.txt
+      - name: Install deps (hash-locked)
+        run: |
+          uv venv --clear --python "$(cat .python-version)" .venv
+          uv pip install --python .venv/bin/python --require-hashes -r requirements.txt
+          echo "$PWD/.venv/bin" >> "$GITHUB_PATH"
+      - name: Synthetic end-to-end demos (no network, no data/)
+        run: |
+          python -m src.dashboard_results
+          python -m src.monthly_report
+          python scripts/demo_synthetic.py
+          test -s results/dashboard.html
+          test -s results/report.html
+      - name: Docker build (runs the suite as non-root)
+        run: docker build -t hft-v1:ci .
+      - uses: actions/upload-artifact@v4
+        with:
+          name: synthetic-reports
+          path: results/*.html

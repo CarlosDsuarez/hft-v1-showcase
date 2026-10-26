@@ -1,0 +1,21 @@
+ticker,yahoo_ticker,broker_symbol,market,currency,tradable_brokers,asset_type,sector,name,adr_proxy,inclusion_reason
+EC,EC,EC,co,USD,alpaca,stock,Energy,Ecopetrol S.A. ADR,,ADR operable USD cobertura 7a
+CIB,CIB,CIB,co,USD,alpaca,stock,Financials,Bancolombia S.A. ADR,,ADR operable USD proxy BCOLOMBIA/PFBCOLOM sin serie local
+AVAL,AVAL,AVAL,co,USD,alpaca,stock,Financials,Grupo Aval Acciones y Valores ADR,,ADR operable USD
+TGLS,TGLS,TGLS,co,USD,alpaca,stock,Industrials,Tecnoglass Inc,,ADR operable USD
+ICOLCAP,ICOLCAP.CL,,co,COP,,etf,ETF Colombia,iShares COLCAP ETF,,ETF nucleo liquido BVC ADV>500M COP
+HCOLSEL,HCOLSEL.CL,,co,COP,,etf,ETF Colombia,Horizons Colombia Select Index ETF,,ETF nucleo liquido BVC ADV>500M COP
+ECOPETROL,ECOPETROL.CL,,co,COP,,stock,Energy,Ecopetrol S.A.,EC,BVC top-liquidez ADV>500M COP
+ISA,ISA.CL,,co,COP,,stock,Utilities,Interconexion Electrica S.A. ISA,,BVC top-liquidez ADV>500M COP
+GEB,GEB.CL,,co,COP,,stock,Utilities,Grupo Energia Bogota S.A.,,BVC top-liquidez ADV>500M COP
+CELSIA,CELSIA.CL,,co,COP,,stock,Utilities,Celsia S.A.,,BVC top-liquidez ADV>500M COP
+GRUPOARGOS,GRUPOARGOS.CL,,co,COP,,stock,Materials,Grupo Argos S.A.,,BVC top-liquidez proxy PFARGOS sin serie
+CEMARGOS,CEMARGOS.CL,,co,COP,,stock,Materials,Cementos Argos S.A.,,BVC top-liquidez ADV>500M COP
+GRUPOSURA,GRUPOSURA.CL,,co,COP,,stock,Financials,Grupo Inversiones Suramericana,,BVC top-liquidez proxy PFSURA sin serie
+CORFICOL,CORFICOLCF.CL,,co,COP,,stock,Financials,Corporacion Financiera Colombiana,,BVC top-liquidez ADV>500M COP
+MINEROS,MINEROS.CL,,co,COP,,stock,Materials,Mineros S.A.,,BVC top-liquidez ADV>500M COP
+PFAVAL,PFAVAL.CL,,co,COP,,stock,Financials,Grupo Aval Preferencial,AVAL,BVC top-liquidez ADV>500M COP
+PFDAVVNDA,PFDAVVNDA.CL,,co,COP,,stock,Financials,Banco Davivienda Preferencial,,BVC top-liquidez ADV 505M COP marginal
+EXITO,EXITO.CL,,co,COP,,stock,Consumer Staples,Almacenes Exito S.A.,,BVC top-liquidez ADV>500M COP
+TERPEL,TERPEL.CL,,co,COP,,stock,Energy,Organizacion Terpel S.A.,,BVC top-liquidez ADV>500M COP
+PROMIGAS,PROMIGAS.CL,,co,COP,,stock,Utilities,Promigas S.A.,,BVC top-liquidez ADV 532M COP marginal

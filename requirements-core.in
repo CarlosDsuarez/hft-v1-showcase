@@ -1,0 +1,11 @@
+# Núcleo HFT: stdlib + numpy + pandas. Python 3.11–3.12 (pandas 3 exige >= 3.11).
+# pytest y ruff van aquí para poder correr tests/hft y make lint sin el stack research.
+# Regenerar requirements-core.txt (lock con hashes): make lock
+numpy>=1.26.4,<3
+# pandas 3: resolución de datetime inferida ("us"), no siempre "ns" (AGENTS.md).
+pandas>=3.0.6,<4
+# Stream trade_updates de Alpaca (src/brokers/alpaca_stream.py). D-07 revocada
+# el 2026-10-13. Solo se usa la API sync (websockets.sync, desde la 12).
+websockets>=13,<18
+pytest>=8.0.2
+ruff>=0.6

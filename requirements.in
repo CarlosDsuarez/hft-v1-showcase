@@ -1,0 +1,11 @@
+# Stack completo: núcleo ligero + research (legado de cartera).
+# Regenerar requirements-core.txt y requirements.txt (locks con hashes): make lock
+# Mantener plotly: el dashboard HTML (src/dashboard_results.py) depende de él.
+-r requirements-core.in
+yfinance>=0.2.36
+cvxpy>=1.5.0
+scipy>=1.12.0
+scikit-learn>=1.4.2
+matplotlib>=3.8.3
+pyarrow>=15.0.0
+plotly>=5.22.0

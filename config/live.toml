@@ -1,0 +1,73 @@
+# config/live.toml — StrategyConfig del runner vivo (scripts/run_periodic_rebalance.py).
+#
+# Cargado por src/strategy.load_strategy_config: TODAS las claves son
+# obligatorias (nada se hereda de los defaults del backtest) y una clave
+# desconocida es error. En un campo opcional, `false` = off.
+# El hash sha256 de la config efectiva queda en rebalance_history.csv
+# (config_hash). Para backtestear exactamente esto:
+#   BacktestConfig(strategy=load_strategy_config(), rebalance_freq="15D", ...)
+#
+# Valores = los que el runner usaba ANTES de unificar (constantes WINDOW,
+# REGIME_WINDOW, TRAILING_WINDOW, TAKE_PROFIT_DOLLARS, STOP_LOSS_DOLLARS y
+# 7 bps fijos), para que unificar no cambie la cartera viva. Donde el
+# backtest usaba otro valor se anota "backtest: ...": decidir a mano.
+schema_version = 1
+
+# --- Sizing ---
+opt_method = "hrp"
+window = 60                 # backtest: 252
+mu_method = "historical"    # sin efecto con opt_method = "hrp"
+benchmark_col = "SPY"       # proxy de mercado para capm_shrunk; sin efecto con hrp
+cov_method = "ledoit_wolf"  # sin efecto con opt_method = "hrp"
+max_weight = 1.0            # 1.0 = sin tope por activo. backtest: 0.30
+turnover_limit = 0.20       # R-02 al ejecutar (como el backtest): lo que se mantiene rota <= 20%/corrida; caja y salidas sin tope
+tc_lambda = 0.001           # sin efecto con opt_method = "hrp"
+kappa = 0.10                # sin efecto con opt_method = "hrp"
+
+# --- Universo ---
+universe_filter = false     # filtro de liquidez (Amihud/volumen) en t. backtest: true
+filter_amihud_pctile = 90.0 # sin efecto con universe_filter = false
+filter_min_volume = 100000.0
+filter_window = 30
+min_assets = 3              # < 3 activos con historia completa → exit 2. backtest: 1
+
+# --- Señales (régimen + factores + convicción) ---
+use_signal_stack = true
+regime_window = 30          # backtest: 63
+conviction_top_k = false    # off = tilt sobre todos los activos. backtest: off
+
+# --- Salidas (cierre total; peso -> 0) ---
+use_exit_rules = true
+stop_loss_pct = false       # backtest: 0.01 (si use_exit_rules)
+take_profit_pct = false     # backtest: 0.02 (si use_exit_rules)
+trailing_stop_pct = false
+trailing_window = 30        # backtest: 63
+exit_on_illiquid = false    # cierra lo que sale del universo activo. backtest: true
+take_profit_dollars = 2.0   # PnL no realizado >= +$2 por posición → cierra. backtest: off
+stop_loss_dollars = 1.0     # PnL no realizado <= -$1 por posición → cierra. backtest: off
+
+# --- Costos (estimación turnover × bps) ---
+commission_bps = 5.0        # 5 + 2 = los 7 bps que el runner tenía fijos
+spread_bps = 2.0
+
+# Signal-stack factor weights (= SignalStackConfig() defaults).
+# SHOWCASE: equal-weight placeholders; the private weights are not published.
+[signal_config]
+w_momentum = 0.25
+w_mean_reversion = 0.25
+w_volatility = 0.25
+w_liquidity = 0.25
+mr_window = 21
+vol_window = 63
+liq_window = 63
+momentum_lookback = 252
+momentum_skip = 21
+
+# Topes por grupo (opcionales; ausentes en vivo hoy). Formato:
+# [groups]
+# AAPL = "us/Tech"
+# [[group_caps]]
+# groups = ["co/Financials", "co/Energy"]
+# cap = 0.30
+# [max_weight_by_group]
+# "us/Tech" = 0.25
