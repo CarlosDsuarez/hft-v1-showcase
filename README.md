@@ -36,7 +36,7 @@ flowchart LR
     end
     subgraph Engine["src/hft — one decision path"]
         ENG[Engine.step<br/>final bars ≤ t] --> FEAT[features<br/>causal]
-        FEAT --> STRAT[strategies<br/>ORB · VWAP reversion<br/>(+ 4 stubs in showcase)]
+        FEAT --> STRAT[strategies<br/>ORB · VWAP reversion]
         STRAT --> RISK[risk<br/>daily loss, kill switch, caps]
         RISK --> SIZE[sizing<br/>fixed-risk / vol-target / Kelly-capped]
         SIZE --> OWN[attribution<br/>one owner per symbol]
